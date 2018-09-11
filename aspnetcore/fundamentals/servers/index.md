@@ -30,11 +30,11 @@ Kestrel は、ASP.NET Core のプロジェクト テンプレートに含まれ�
 
 # <a name="aspnet-core-2xtabaspnetcore2x"></a>[ASP.NET Core 2.x](#tab/aspnetcore2x)
 
-Kestrel は単独で使用することも、IIS、Nginx、または Apache などの*リバース プロキシ サーバー*と併用することもできます。 リバース プロキシ サーバーはインターネットから HTTP 要求を受け取り、事前にいくつかの処理を行ってから Kestrel に転送します。
+Kestrel は単独で使用することも、IIS、NGINX、または Apache などの*リバース プロキシ サーバー*と併用することもできます。 リバース プロキシ サーバーはインターネットから HTTP 要求を受け取り、事前にいくつかの処理を行ってから Kestrel に転送します。
 
 ![リバース プロキシ サーバーなしでインターネットと直接通信する Kestrel](kestrel/_static/kestrel-to-internet2.png)
 
-![IIS、Nginx、または Apache などのリバース プロキシ サーバーを介してインターネットと間接的に通信する Kestrel](kestrel/_static/kestrel-to-internet.png)
+![IIS、NGINX、または Apache などのリバース プロキシ サーバーを介してインターネットと間接的に通信する Kestrel](kestrel/_static/kestrel-to-internet.png)
 
 リバース プロキシ サーバーの有無に関わらず、いずれの構成も有効で、ASP.NET Core 2.0 またはそれ以降のアプリ用にホスティング構成がサポートされている必要があります。 詳細については、「[When to use Kestrel with a reverse proxy](xref:fundamentals/servers/kestrel#when-to-use-kestrel-with-a-reverse-proxy)」 (Kestrel とリバース プロキシを使用するタイミング) を参照してください。
 
@@ -44,9 +44,9 @@ Kestrel は単独で使用することも、IIS、Nginx、または Apache な�
 
 ![内部ネットワークと直接通信する Kestrel](kestrel/_static/kestrel-to-internal.png)
 
-アプリをインターネットに公開する場合は、Kestrel が*リバース プロキシ サーバー*として IIS、Nginx、または Apache を使用する必要があります。 以下の図のように、リバース プロキシ サーバーはインターネットから HTTP 要求を受け取り、事前にいくつかの処理を行ってから Kestrel に転送します。
+アプリをインターネットに公開する場合は、Kestrel が*リバース プロキシ サーバー*として IIS、NGINX、または Apache を使用する必要があります。 以下の図のように、リバース プロキシ サーバーはインターネットから HTTP 要求を受け取り、事前にいくつかの処理を行ってから Kestrel に転送します。
 
-![IIS、Nginx、または Apache などのリバース プロキシ サーバーを介してインターネットと間接的に通信する Kestrel](kestrel/_static/kestrel-to-internet.png)
+![IIS、NGINX、または Apache などのリバース プロキシ サーバーを介してインターネットと間接的に通信する Kestrel](kestrel/_static/kestrel-to-internet.png)
 
 エッジ展開 (インターネットからのトラフィックに公開される) でリバース プロキシを使用する最も重要な理由は、セキュリティです。 1.x バージョンの Kestrel はインターネットからの攻撃を防御する重要なセキュリティ機能を備えていません。 これには、適切なタイムアウト、要求サイズの制限、および同時接続の制限などが含まれます (ただし、これらに限定されない)。
 
@@ -54,15 +54,15 @@ Kestrel は単独で使用することも、IIS、Nginx、または Apache な�
 
 ---
 
-IIS、Nginx、および Apache を Kestrel や[カスタム サーバー実装](#custom-servers)なしで使用することはできません。 ASP.NET Core は、プラットフォーム間で一貫して動作できるように、独自のプロセスで実行するように設計されています。 IIS、Nginx、および Apache では独自のスタートアップ プロシージャと環境が指定されます。 これらのサーバー テクノロジを直接使用するには、ASP.NET Core を各サーバーの要件に適合させる必要があります。 Kestrel などの Web サーバー実装を使用することで、ASP.NET Core は異なるサーバー テクノロジでホストされている場合でもスタートアップ プロセスと環境を制御できます。
+IIS、NGINX、および Apache を Kestrel や[カスタム サーバー実装](#custom-servers)なしで使用することはできません。 ASP.NET Core は、プラットフォーム間で一貫して動作できるように、独自のプロセスで実行するように設計されています。 IIS、NGINX、および Apache では独自のスタートアップ プロシージャと環境が指定されます。 これらのサーバー テクノロジを直接使用するには、ASP.NET Core を各サーバーの要件に適合させる必要があります。 Kestrel などの Web サーバー実装を使用することで、ASP.NET Core は異なるサーバー テクノロジでホストされている場合でもスタートアップ プロセスと環境を制御できます。
 
 ### <a name="iis-with-kestrel"></a>IIS と Kestrel
 
 ASP.NET Core のリバース プロキシとして [IIS](/iis/get-started/introduction-to-iis/introduction-to-iis-architecture) または [IIS Express](/iis/extensions/introduction-to-iis-express/iis-express-overview) を使用する場合、ASP.NET Core アプリは IIS ワーカー プロセスとは別のプロセスで実行されます。 IIS プロセスで、[ASP.NET Core モジュール](xref:fundamentals/servers/aspnet-core-module)がリバース プロキシの関係を調整します。 ASP.NET Core モジュールの主な機能は、ASP.NET Core アプリを開始し、クラッシュ時にアプリを再始動し、HTTP トラフィックをアプリに転送することです。 詳細については、[ASP.NET Core モジュール](xref:fundamentals/servers/aspnet-core-module)に関するページを参照してください。 
 
-### <a name="nginx-with-kestrel"></a>Nginx と Kestrel
+### <a name="nginx-with-kestrel"></a>NGINX と Kestrel
 
-Kestrel のリバース プロキシ サーバーとして Linux で Nginx を使用する方法については、「[Host on Linux with Nginx](xref:host-and-deploy/linux-nginx)」(Nginx による Linux でのホスト) を参照してください。
+Kestrel のリバース プロキシ サーバーとして Linux で NGINX を使用する方法については、「[Host on Linux with NGINX](xref:host-and-deploy/linux-nginx)」(NGINX による Linux でのホスト) を参照してください。
 
 ### <a name="apache-with-kestrel"></a>Apache と Kestrel
 
@@ -112,6 +112,6 @@ ASP.NET Core 1.x では、HTTP.sys は [WebListener](xref:fundamentals/servers/w
 
 * [Kestrel](xref:fundamentals/servers/kestrel)
 * [Kestrel と IIS](xref:fundamentals/servers/aspnet-core-module)
-* [Nginx による Linux でのホスト](xref:host-and-deploy/linux-nginx)
+* [NGINX による Linux でのホスト](xref:host-and-deploy/linux-nginx)
 * [Apache による Linux でのホスト](xref:host-and-deploy/linux-apache)
 * [HTTP.sys](xref:fundamentals/servers/httpsys) (ASP.NET Core 1.x の場合は [WebListener](xref:fundamentals/servers/weblistener) を参照)

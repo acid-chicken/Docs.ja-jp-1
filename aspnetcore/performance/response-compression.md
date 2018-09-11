@@ -24,14 +24,14 @@ ms.locfileid: "36278220"
 
 ## <a name="when-to-use-response-compression-middleware"></a>応答の圧縮のミドルウェアを使用する場合
 
-IIS、Apache、または Nginx サーバー ベースの応答の圧縮テクノロジを使用します。 ミドルウェアのパフォーマンス可能性がありますされませんと一致するサーバーにあるモジュール。 [HTTP.sys サーバー](xref:fundamentals/servers/httpsys)と[Kestrel](xref:fundamentals/servers/kestrel)現在組み込み圧縮サポートが提供されません。
+IIS、Apache、または NGINX サーバー ベースの応答の圧縮テクノロジを使用します。 ミドルウェアのパフォーマンス可能性がありますされませんと一致するサーバーにあるモジュール。 [HTTP.sys サーバー](xref:fundamentals/servers/httpsys)と[Kestrel](xref:fundamentals/servers/kestrel)現在組み込み圧縮サポートが提供されません。
 
 場合は、圧縮ミドルウェアの応答を使用します。
 
 * 次のサーバー ベースの圧縮テクノロジを使用することができません。
   * [動的な圧縮の IIS モジュール](https://www.iis.net/overview/reliability/dynamiccachingandcompression)
   * [Apache mod_deflate モジュール](http://httpd.apache.org/docs/current/mod/mod_deflate.html)
-  * [Nginx 圧縮および圧縮解除](https://www.nginx.com/resources/admin-guide/compression-and-decompression/)
+  * [NGINX 圧縮および圧縮解除](https://www.nginx.com/resources/admin-guide/compression-and-decompression/)
 * 直接ホスティング。
   * [HTTP.sys サーバー](xref:fundamentals/servers/httpsys) (旧称[WebListener](xref:fundamentals/servers/weblistener))
   * [Kestrel](xref:fundamentals/servers/kestrel)
@@ -214,9 +214,9 @@ Gzip 圧縮プロバイダーの既定値は、最速の圧縮レベル ([Compre
 
 ::: moniker-end
 
-## <a name="middleware-issue-when-behind-an-nginx-reverse-proxy"></a>Nginx リバース プロキシの背後にある場合のミドルウェアの問題
+## <a name="middleware-issue-when-behind-an-nginx-reverse-proxy"></a>NGINX リバース プロキシの背後にある場合のミドルウェアの問題
 
-要求が Nginx がプロキシとなったとき、`Accept-Encoding`ヘッダーを削除します。 これは、ミドルウェアが応答を圧縮することを防ぎます。 詳細については、次を参照してください。 [NGINX: 圧縮および圧縮解除](https://www.nginx.com/resources/admin-guide/compression-and-decompression/)です。 によってこの問題を追跡[Nginx (BasicMiddleware #123) の圧縮をパススルーもらう](https://github.com/aspnet/BasicMiddleware/issues/123)です。
+要求が NGINX がプロキシとなったとき、`Accept-Encoding`ヘッダーを削除します。 これは、ミドルウェアが応答を圧縮することを防ぎます。 詳細については、次を参照してください。 [NGINX: 圧縮および圧縮解除](https://www.nginx.com/resources/admin-guide/compression-and-decompression/)です。 によってこの問題を追跡[NGINX (BasicMiddleware #123) の圧縮をパススルーもらう](https://github.com/aspnet/BasicMiddleware/issues/123)です。
 
 ## <a name="working-with-iis-dynamic-compression"></a>IIS 動的圧縮を使用
 

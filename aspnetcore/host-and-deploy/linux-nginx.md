@@ -1,7 +1,7 @@
 ---
-title: Nginx 搭載の Linux で ASP.NET Core をホストする
+title: NGINX 搭載の Linux で ASP.NET Core をホストする
 author: rick-anderson
-description: Ubuntu 16.04 でリバース プロキシとして Nginx をセットアップし、Kestrel で実行している ASP.NET Core Web アプリに HTTP トラフィックを転送する方法について説明します。
+description: Ubuntu 16.04 でリバース プロキシとして NGINX をセットアップし、Kestrel で実行している ASP.NET Core Web アプリに HTTP トラフィックを転送する方法について説明します。
 ms.author: riande
 ms.custom: mvc
 ms.date: 05/22/2018
@@ -13,7 +13,7 @@ ms.contentlocale: ja-JP
 ms.lasthandoff: 07/25/2018
 ms.locfileid: "39254858"
 ---
-# <a name="host-aspnet-core-on-linux-with-nginx"></a>Nginx 搭載の Linux で ASP.NET Core をホストする
+# <a name="host-aspnet-core-on-linux-with-nginx"></a>NGINX 搭載の Linux で ASP.NET Core をホストする
 
 [Sourabh Shirhatti](https://twitter.com/sshirhatti) による投稿
 
@@ -73,9 +73,9 @@ dotnet publish --configuration Release
 
 ### <a name="use-a-reverse-proxy-server"></a>リバース プロキシ サーバーを利用する
 
-Kestrel は、ASP.NET Core から動的なコンテンツを提供するのに役立ちます。 ただし、Web サーバーとしての機能は、IIS、Apache、Nginx などのサーバーと比べると制限されます。 リバース プロキシ サーバーは、静的コンテンツ サービス、要求のキャッシュ、要求の圧縮、HTTP サーバーからの SSL 終了などの作業の負荷を軽減します。 リバース プロキシ サーバーは専用コンピューター上に置かれることもあれば、HTTP サーバーと並んで展開されることもあります。
+Kestrel は、ASP.NET Core から動的なコンテンツを提供するのに役立ちます。 ただし、Web サーバーとしての機能は、IIS、Apache、NGINX などのサーバーと比べると制限されます。 リバース プロキシ サーバーは、静的コンテンツ サービス、要求のキャッシュ、要求の圧縮、HTTP サーバーからの SSL 終了などの作業の負荷を軽減します。 リバース プロキシ サーバーは専用コンピューター上に置かれることもあれば、HTTP サーバーと並んで展開されることもあります。
 
-このガイドの目的のために、単一インスタンスの Nginx が使用されます。 HTTP サーバーと並んで、同じサーバー上で実行されます。 要件に応じて、別のセットアップを選択することも可能です。
+このガイドの目的のために、単一インスタンスの NGINX が使用されます。 HTTP サーバーと並んで、同じサーバー上で実行されます。 要件に応じて、別のセットアップを選択することも可能です。
 
 要求はリバース プロキシによって転送されます。そのため、[Microsoft.AspNetCore.HttpOverrides](https://www.nuget.org/packages/Microsoft.AspNetCore.HttpOverrides/) パッケージの [Forwarded Headers Middleware](xref:host-and-deploy/proxy-load-balancer) を使用します。 リダイレクト URI とその他のセキュリティ ポリシーを正しく機能させるために、このミドルウェアは、`X-Forwarded-Proto` ヘッダーを利用して、`Request.Scheme` を更新します。
 
@@ -118,9 +118,9 @@ app.UseFacebookAuthentication(new FacebookOptions()
 
 プロキシ サーバーとロード バランサーの背後でホストされているアプリでは、追加の構成が必要になる場合があります。 詳細については、「[プロキシ サーバーとロード バランサーを使用するために ASP.NET Core を構成する](xref:host-and-deploy/proxy-load-balancer)」を参照してください。
 
-### <a name="install-nginx"></a>Nginx をインストールする
+### <a name="install-nginx"></a>NGINX をインストールする
 
-`apt-get` を利用し、Nginx をインストールします。 インストーラーにより *systemd* init スクリプトが作成されます。このスクリプトがシステム起動時に Nginx をデーモンとして実行します。 
+`apt-get` を利用し、NGINX をインストールします。 インストーラーにより *systemd* init スクリプトが作成されます。このスクリプトがシステム起動時に NGINX をデーモンとして実行します。 
 
 ```bash
 sudo -s
@@ -130,22 +130,22 @@ apt-get update
 apt-get install nginx
 ```
 
-Ubuntu パーソナル パッケージ アーカイブ (PPA) は、ボランティアによって管理されており、[nginx.org](https://nginx.org/) が配布しているものではありません。詳細については、「[Nginx: Binary Releases: Official Debian/Ubuntu packages](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/#official-debian-ubuntu-packages)」 (Nginx: バイナリ リリース: 公式 Debian/Ubuntu パッケージ) を参照してください。
+Ubuntu パーソナル パッケージ アーカイブ (PPA) は、ボランティアによって管理されており、[nginx.org](https://nginx.org/) が配布しているものではありません。詳細については、「[NGINX: Binary Releases: Official Debian/Ubuntu packages](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/#official-debian-ubuntu-packages)」 (NGINX: バイナリ リリース: 公式 Debian/Ubuntu パッケージ) を参照してください。
 
 > [!NOTE]
-> オプションの Nginx モジュールが必要な場合、Nginx をソースからビルドする必要がある場合があります。
+> オプションの NGINX モジュールが必要な場合、NGINX をソースからビルドする必要がある場合があります。
 
-Nginx は初めてのインストールとなるので、次を実行して明示的に起動します。
+NGINX は初めてのインストールとなるので、次を実行して明示的に起動します。
 
 ```bash
 sudo service nginx start
 ```
 
-ブラウザーで Nginx の既定のランディング ページが表示されることを確認します。 ランディング ページは `http://<server_IP_address>/index.nginx-debian.html` からアクセスできます。
+ブラウザーで NGINX の既定のランディング ページが表示されることを確認します。 ランディング ページは `http://<server_IP_address>/index.nginx-debian.html` からアクセスできます。
 
-### <a name="configure-nginx"></a>Nginx を構成する
+### <a name="configure-nginx"></a>NGINX を構成する
 
-Nginx をリバース プロキシとして構成し、ASP.NET Core アプリに要求を転送するには、*/etc/nginx/sites-available/default* を変更します。 テキスト エディターで開き、中身を次のものに変更します。
+NGINX をリバース プロキシとして構成し、ASP.NET Core アプリに要求を転送するには、*/etc/nginx/sites-available/default* を変更します。 テキスト エディターで開き、中身を次のものに変更します。
 
 ```nginx
 server {
@@ -164,7 +164,7 @@ server {
 }
 ```
 
-`server_name` が一致しない場合、Nginx では既定のサーバーが使用されます。 既定のサーバーが定義されていない場合、構成ファイルの最初のサーバーが既定のサーバーとなります。 ベスト プラクティスとして、構成ファイルで 444 の状態コードを返す既定のサーバーを具体的に追加します。 既定のサーバーの構成例は次のとおりです。
+`server_name` が一致しない場合、NGINX では既定のサーバーが使用されます。 既定のサーバーが定義されていない場合、構成ファイルの最初のサーバーが既定のサーバーとなります。 ベスト プラクティスとして、構成ファイルで 444 の状態コードを返す既定のサーバーを具体的に追加します。 既定のサーバーの構成例は次のとおりです。
 
 ```nginx
 server {
@@ -174,12 +174,12 @@ server {
 }
 ```
 
-上記の構成ファイルと既定のサーバーでは、Nginx は、ホスト ヘッダー `example.com` または `*.example.com` で、ポート 80 でパブリック トラフィックを受け入れます。 これらのホストと一致しない要求は、Kestrel に転送されません。 Nginx は一致する要求を Kestrel (`http://localhost:5000`) に転送します。 詳細については、「[How nginx processes a request](https://nginx.org/docs/http/request_processing.html)」(Nginx が要求を処理する方法) をご覧ください。 Kestrel の IP/ポートを変更する場合は、[Kestrel のエンドポイントの構成](xref:fundamentals/servers/kestrel#endpoint-configuration)に関するセクションを参照してください。
+上記の構成ファイルと既定のサーバーでは、NGINX は、ホスト ヘッダー `example.com` または `*.example.com` で、ポート 80 でパブリック トラフィックを受け入れます。 これらのホストと一致しない要求は、Kestrel に転送されません。 NGINX は一致する要求を Kestrel (`http://localhost:5000`) に転送します。 詳細については、「[How nginx processes a request](https://nginx.org/docs/http/request_processing.html)」(NGINX が要求を処理する方法) をご覧ください。 Kestrel の IP/ポートを変更する場合は、[Kestrel のエンドポイントの構成](xref:fundamentals/servers/kestrel#endpoint-configuration)に関するセクションを参照してください。
 
 > [!WARNING]
 > 適切な [server_name directive](https://nginx.org/docs/http/server_names.html) を指定しないと、アプリにセキュリティ上の脆弱性が生じます。 親ドメイン全体を制御する場合、サブドメイン ワイルドカード バインド (たとえば、`*.example.com`) にこのセキュリティ リスクはありません (脆弱である `*.com` とは対照的)。 詳細については、[rfc7230 セクション-5.4](https://tools.ietf.org/html/rfc7230#section-5.4) を参照してください。
 
-Nginx の構成を確立したら、`sudo nginx -t` を実行して構成ファイルの構文を確認します。 構成ファイルがテストに合格したら、`sudo nginx -s reload` を実行することで、強制的に Nginx に変更を反映させます。
+NGINX の構成を確立したら、`sudo nginx -t` を実行して構成ファイルの構文を確認します。 構成ファイルがテストに合格したら、`sudo nginx -s reload` を実行することで、強制的に NGINX に変更を反映させます。
 
 アプリをサーバーで直接実行するには、次を実行します。
 
@@ -198,7 +198,7 @@ chmod u+x <app_executable>
 
 ## <a name="monitoring-the-app"></a>アプリの監視
 
-サーバーは、`http://<serveraddress>:80` に対する要求を Kestrel で実行されている ASP.NET Core アプリ (`http://127.0.0.1:5000`) に転送するようにセットアップされました。 ただし、Nginx は Kestrel プロセスを管理するようには設定されていません。 *systemd* を使用してサービス ファイルを作成し、基になる Web アプリを起動して監視できます。 *systemd* は init システムであり、プロセスを起動、停止、管理するためのさまざまな高性能機能を提供します。 
+サーバーは、`http://<serveraddress>:80` に対する要求を Kestrel で実行されている ASP.NET Core アプリ (`http://127.0.0.1:5000`) に転送するようにセットアップされました。 ただし、NGINX は Kestrel プロセスを管理するようには設定されていません。 *systemd* を使用してサービス ファイルを作成し、基になる Web アプリを起動して監視できます。 *systemd* は init システムであり、プロセスを起動、停止、管理するためのさまざまな高性能機能を提供します。 
 
 ### <a name="create-the-service-file"></a>サービス ファイルを作成する
 
@@ -325,9 +325,9 @@ sudo ufw allow 443/tcp
 sudo ufw enable
 ```
 
-### <a name="securing-nginx"></a>Nginx のセキュリティを強化する
+### <a name="securing-nginx"></a>NGINX のセキュリティを強化する
 
-#### <a name="change-the-nginx-response-name"></a>Nginx 応答名を変更する
+#### <a name="change-the-nginx-response-name"></a>NGINX 応答名を変更する
 
 *src/http/ngx_http_header_filter_module.c* を編集します。
 
@@ -358,7 +358,7 @@ static char ngx_http_server_full_string[] = "Server: Web Server" CRLF;
 
 [!code-nginx[](linux-nginx/nginx.conf?highlight=2)]
 
-#### <a name="secure-nginx-from-clickjacking"></a>Nginx をクリックジャッキングから守る
+#### <a name="secure-nginx-from-clickjacking"></a>NGINX をクリックジャッキングから守る
 クリックジャッキングは、感染したユーザーのクリックを集めるという悪意のある手法です。 クリックジャッキングは被害者 (訪問者) をだまし、感染したサイトでクリックさせます。 X-FRAME-OPTIONS を使用して、サイトをセキュリティで保護します。
 
 *nginx.conf* ファイルを編集します。
@@ -367,7 +367,7 @@ static char ngx_http_server_full_string[] = "Server: Web Server" CRLF;
 sudo nano /etc/nginx/nginx.conf
 ```
 
-行 `add_header X-Frame-Options "SAMEORIGIN";` を追加し、ファイルを保存し、Nginx を再起動します。
+行 `add_header X-Frame-Options "SAMEORIGIN";` を追加し、ファイルを保存し、NGINX を再起動します。
 
 #### <a name="mime-type-sniffing"></a>MIME タイプ スニッフィング
 
@@ -379,10 +379,10 @@ sudo nano /etc/nginx/nginx.conf
 sudo nano /etc/nginx/nginx.conf
 ```
 
-行 `add_header X-Content-Type-Options "nosniff";` を追加し、ファイルを保存し、Nginx を再起動します。
+行 `add_header X-Content-Type-Options "nosniff";` を追加し、ファイルを保存し、NGINX を再起動します。
 
 ## <a name="additional-resources"></a>その他の技術情報
 
-* [Nginx: バイナリ リリース: 公式 Debian/Ubuntu パッケージ](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/#official-debian-ubuntu-packages)
+* [NGINX: バイナリ リリース: 公式 Debian/Ubuntu パッケージ](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/#official-debian-ubuntu-packages)
 * [プロキシ サーバーとロード バランサーを使用するために ASP.NET Core を構成する](xref:host-and-deploy/proxy-load-balancer)
 * [NGINX: 転送されるヘッダーの使用](https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/)
